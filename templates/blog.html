@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">blog</h2>
+
+    <ul class="list-none">
+        {% for post in posts %}
+        <li class="flex flex-col list-none">
+            <span class="text-sm">{{ post.date | datetime }}</span>
+            <a href="{{url_for('post', slug=post.slug)}}" class="font-bold">{{ post.title }}</a>
+            <p>{{ post.content | truncate(100) }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section>
+<h2>
+    Hi there 👋
+</h2>
+<p>
+    I work at PulsePoint as a Solutions Engineering. I enjoy using Python alot! I often keep a <a href="https://github.com/mrpbennett/TIL">TIL log</a> of what I learn about on the job or in personal projects.
+</p>
+
+<p>I also love to race bikes 🚴🏼‍♂️💨</p>
+
+<p>
+    You can find me on the internet below:
+</p>
+
+<ul>
+    {% for s in social %}
+    <li>
+        <a href="{{s['url']}}">{{s['name']}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<p>
+    If you like reading my content, you can also read my trash tweets on <a href="https://twitter.com/mrpbennett">Twitter</a>
+</p>
+
+</section>
+
+{% endblock content %}

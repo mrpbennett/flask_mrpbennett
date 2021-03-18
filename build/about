@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; About Me</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home" class="mr-8">Home</a>
+            <a href="/about" class="mr-8">About</a>
+            <a href="/blog">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<section>
+    <div>
+        <h2>About me 👨🏼‍💻</h2>
+        <p>
+          I'm a solutions engineer based in London, UK. Before solution
+          engineering, I spent my time in account management within Ad Tech.
+        </p>
+        <h3>A brief overview of my tech journey</h3>
+        <p>
+          I have come to the developer world late, although I have always
+          dabbled since my teens. I have never "seriously" learnt to code until
+          2019. Where I restarted to learn Python which will always be my first
+          love, then on to things like React and Vue. Now though it's time to
+          really dig into Python, I deal with a lot of data in my day to day,
+          that's why I've switched my focus primarily to Python and SQL.
+        </p>
+        <p>
+          As far as next steps, I'm still figuring out what I want to do and
+          where I want to be. So stay tuned because I'll definitely be sharing
+          more about what the future holds.
+        </p>
+
+        <h3>Tech I work with 👾</h3>
+        <ul>
+            
+            <li>Python 🐍</li>
+            
+            <li>SQL</li>
+            
+            <li>HTML/CSS 🎨</li>
+            
+            <li>JavaScript (we have a love/hate relationship)</li>
+            
+            <li>Git/Github 🙃</li>
+            
+        </ul>
+    </div>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

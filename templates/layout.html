@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% if title %}
+        <title>Paul Bennett &#183; {{ title }}</title>
+    {% else %}
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    {% endif %}
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="{{ url_for('index')}}" class="mr-8">Home</a>
+            <a href="{{url_for('about')}}" class="mr-8">About</a>
+            <a href="{{url_for('blog')}}">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>
