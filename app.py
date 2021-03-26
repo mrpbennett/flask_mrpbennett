@@ -1,8 +1,9 @@
-from flask import Flask, render_template
 from os import environ, path
-from dotenv import load_dotenv
-from flaskext.markdown import Markdown
+
 import contentful
+from dotenv import load_dotenv
+from flask import Flask, render_template
+from flaskext.markdown import Markdown
 
 app = Flask(__name__)
 Markdown(app, extensions=["fenced_code"], output_format="html5")
@@ -10,9 +11,6 @@ app.config.from_object("config.DevConfig")
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
-
-space_id = environ.get("CONTENTFUL_SPACE_ID")
-token = environ.get("CONTENTFUL_ACCESS_TOKEN")
 
 client = contentful.Client(
     environ.get("CONTENTFUL_SPACE_ID"),
@@ -37,11 +35,11 @@ social = [
 ]
 
 tech_i_use = [
-    "Python 🐍",
-    "SQL",
-    "HTML/CSS 🎨",
+    "Python",
+    "Docker",
+    "Git/Github",
+    "HTML/CSS/SASS",
     "JavaScript (we have a love/hate relationship)",
-    "Git/Github 🙃",
 ]
 
 

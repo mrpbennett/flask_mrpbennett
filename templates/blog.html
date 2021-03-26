@@ -7,10 +7,13 @@
 
     <ul class="list-none">
         {% for post in posts %}
-        <li class="flex flex-col list-none">
-            <span class="text-sm">{{ post.date | datetime }}</span>
-            <a href="{{url_for('post', slug=post.slug)}}" class="font-bold">{{ post.title }}</a>
-            <p>{{ post.content | truncate(100) }}</p>
+        <li class="list-none">
+            <div class="flex flex-col">
+                <span class="text-sm">Posted: {{ post.date | datetime }}</span>
+                <a href="{{url_for('post', slug=post.slug)}}" class="font-bold prose-lg">
+                    <h3>{{ post.title }}</h3>
+                </a>
+            </div>
         </li>
         {% endfor %}
     </ul>
