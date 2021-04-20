@@ -10,6 +10,7 @@ contentful = "*"
 frozen-flask = "*"
 requests = "*"
 flask-markdown = "*"
+gunicorn = "*"
 
 [dev-packages]
 
