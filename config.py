@@ -13,8 +13,7 @@ class Config:
     CONTENTFUL_ACCESS_TOKEN = environ.get("CONTENTFUL_ACCESS_TOKEN")
 
     # Freeze Flask
-    FREEZER_RELATIVE_URLS = True
-    FREEZER_IGNORE_404_NOT_FOUND = True
+    FREEZER_IGNORE_404_NOT_FOUND = False
 
 
 class ProdConfig(Config):

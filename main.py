@@ -6,7 +6,9 @@ from flask import Flask, render_template
 from flaskext.markdown import Markdown
 
 app = Flask(__name__)
+
 Markdown(app, extensions=["fenced_code"], output_format="html5")
+
 app.config.from_object("config.DevConfig")
 
 basedir = path.abspath(path.dirname(__file__))
@@ -44,17 +46,17 @@ tech_i_use = [
 
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home/")
 def index():
     return render_template("home.html", social=social)
 
 
-@app.route("/about")
+@app.route("/about/")
 def about():
     return render_template("about.html", title="About Me", tech_i_use=tech_i_use)
 
 
-@app.route("/blog")
+@app.route("/blog/")
 def blog():
 
     posts = client.entries({"content_type": "posts"})
