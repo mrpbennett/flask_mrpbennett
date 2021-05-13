@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Generating a new SSH key and adding it to the ssh-agent</h2>
+    <p>Most of you seasoned developers are use to SSH keys, this was something new to me. So this is how I went about setting up my dev enviroment to use them.</p>
+<h3>First we need to check for existing SSH keys</h3>
+<ol>
+<li>Open Terminal</li>
+<li>Enter <code>ls -al ~./ssh</code> to see if existing SSH keys are present:</li>
+</ol>
+<pre><code class="language-bash">$ ls -al ~/.ssh
+# Lists the files in your .ssh directory, if they exist
+</code></pre>
+<ol>
+<li>
+<p>Check the directory listing to see if you already have a public SSH key.
+   By default, the filenames of the public keys are one of the following:</p>
+</li>
+<li>
+<p>id_dsa.pub</p>
+</li>
+<li>id_ecdsa.pub</li>
+<li>id_ed25519.pub</li>
+<li>id_rsa.pub</li>
+</ol>
+<p>If you don't have an existing public and private key pair. Then we can Generate a new SSH key.</p>
+<h3>Generating a new SSH key</h3>
+<ol>
+<li>
+<p>Open Terminal</p>
+</li>
+<li>
+<p>Paste the text below, substituting in your GitHub email address.
+   <code>$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></p>
+</li>
+</ol>
+<p>This creates a new ssh key, using the provided email as a label.
+<code>&gt; This creates a new ssh key, using the provided email as a label.</code></p>
+<ol>
+<li>
+<p>When you're prompted to "Enter a file in which to save the key," press Enter. This accepts the default file location.
+   <code>Enter a file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]</code></p>
+</li>
+<li>
+<p>At the prompt, type a secure passphrase. For more information, see <a href="https://help.github.com/en/articles/working-with-ssh-key-passphrases">"Working with SSH key passphrases"</a>.</p>
+</li>
+</ol>
+<pre><code class="language-bash">&gt; Enter passphrase (empty for no passphrase): [Type a passphrase]
+&gt; Enter same passphrase again: [Type passphrase again]
+</code></pre>
+<h3>Now adding the SSH ket to the ssh-agent</h3>
+<p>When adding your SSH key to the agent, use the default macOS <code>ssh-add</code> command!!</p>
+<ol>
+<li>Start the ssh-agent in the background.</li>
+</ol>
+<pre><code class="language-bash">$ eval &quot;$(ssh-agent -s)&quot;
+&gt; Agent pid 59566
+</code></pre>
+<ol>
+<li>If you're using macOS Sierra 10.12.2 or later, you will need to modify your <code>~/.ssh/config</code> file to automatically load keys into the ssh-agent and store passphrases in your keychain.</li>
+</ol>
+<pre><code class="language-bash">Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+</code></pre>
+<ol>
+<li>Add your SSH private key to the ssh-agent and store your passphrase in the keychain. If you created your key with a different name, or if you are adding an existing key that has a different name, replace id_rsa in the command with the name of your private key file.</li>
+</ol>
+<p><code>$ ssh-add -K ~/.ssh/id_rsa</code></p>
+<p><strong>Note:</strong> The <code>-K</code> option is Apple's standard version of ssh-add, which stores the passphrase in your keychain for you when you add an ssh key to the ssh-agent.</p>
+<p>Now its time to <a href="https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account">Adding a new SSH key to your GitHub account</a></p>
+<p>I have bascially ripped off the tutorial from <a href="https://help.github.com/">Help GitHub</a> but this is mainly for my reference so I can have access to quickly.</p>
+<p>If you're using <a href="https://bitbucket.org/">BitBucket</a> you can go <a href="https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html">here</a></p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

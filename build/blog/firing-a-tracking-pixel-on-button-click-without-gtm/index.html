@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Firing a tracking pixel on button click without GTM</h2>
+    <p>As a solutions engineer in Adtech, sometimes we have to create ways to bend the will of the browser for our clients. One of our clients wanted to fire a tracking pixel on a button click. With <a href="https://marketingplatform.google.com/intl/en_uk/about/tag-manager/">Google Tag Manager</a> this is very easy, you just use a custom trigger using a CSS selector. The client wasn't using Google Tag Manager (GTM) so I put this together.</p>
+<pre><code class="language-html">&lt;button id=&quot;unique_id&quot;&gt;click me&lt;/button&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    (() =&gt; {
+        const b = document.getElementById('unique_id');
+        b.onclick = () =&gt; {
+            const i = document.createElement('img');
+            i.src = '&lt; your pixel src goes here &gt;';
+            i.setAttribute('width', 0);
+            i.setAttribute('height', 0);
+            b.parentElement.appendChild(i);
+        };
+    })();
+&lt;/script&gt;
+</code></pre>
+<h3>Breakdown</h3>
+<p>The first bit is pretty simple, this is out button.</p>
+<pre><code class="language-html">&lt;button id=&quot;unique_id&quot;&gt;click me&lt;/button&gt;
+</code></pre>
+<p>The next part is where the pixel gets appended to the body on button click where it's then fired.</p>
+<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot;&gt;
+    (() =&gt; {
+        const b = document.getElementById('unique_id');
+        b.onclick = () =&gt; {
+            const i = document.createElement('img');
+            i.src = '&lt; your pixel src goes here &gt;';
+            i.setAttribute('width', 0);
+            i.setAttribute('height', 0);
+            b.parentElement.appendChild(i);
+        };
+    })();
+&lt;/script&gt;
+</code></pre>
+<p>I have set up anonymous function, which gets the button by its ID and stores it into the variable <code>b</code>.</p>
+<p>Then a click handler is added to <code>b</code> which allows us to do what we need to when the button is clicked. Once the button is clicked we create our <code>img</code> HTML element, we then set its height and width via <code>setAttribute</code> we set this to <code>0</code>. Then we append it to the parent element which is the HTML body.</p>
+<p>This is when the pixel is fired.</p>
+<p>All in all pretty simple, but a cool little way of achieving what the client wants when they were using GTM.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

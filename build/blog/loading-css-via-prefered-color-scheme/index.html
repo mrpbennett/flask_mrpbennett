@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Loading CSS via prefered-color-scheme</h2>
+    <p>After learning about <code>prefers-color-scheme</code> and how to implement Dark Mode within your website. I also found out that you're able to load different CSS files depending on the users choice of Light or Dark mode.</p>
+<p>This comes in very handy, when you're build a site that uses syntax highlighting such as <a href="http://pygments.org">pygments</a> you're able to find some CSS pygment files on Github. Like these <a href="https://github.com/idleberg/base16-pygments/tree/master/css">ones</a>.</p>
+<p>I have a light syntax theme and dark syntax theme on this site, I can switch between the two by doing the following:</p>
+<pre><code class="language-html">&lt;link
+    rel=&quot;stylesheet&quot;
+    href=&quot;{{ site.url }}{{ site.baseurl}}/css/tomorrow-light.css&quot;
+    media=&quot;(prefers-color-scheme: no-preference), (prefers-color-scheme: light)&quot;
+/&gt;
+&lt;link
+    rel=&quot;stylesheet&quot;
+    href=&quot;{{ site.url }}{{ site.baseurl}}/css/dracula.css&quot;
+    media=&quot;(prefers-color-scheme: dark)&quot;
+/&gt;
+</code></pre>
+<p>Using <code>media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)"</code> to load a style sheet, when the user is in Light Mode and then using <code>media="(prefers-color-scheme: dark)"</code> when they're in Dark mode.</p>
+<p>I found this neat trick after watching this <a href="https://youtu.be/kVKuH5H7nuA">tutorial</a> by DesignCourse. You can read more about <code>prefers-color-scheme</code> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme">here</a></p>
+<p>Having my CSS set up like this, allows the highlighted code on the site to keep in theme with the color scheme. Nioce!</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

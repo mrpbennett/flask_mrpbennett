@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Adding pagination in Gatsby</h2>
+    <p>A page that displays your posts can get incredibly long as you continue to add posts. Pagination can offer a solution to having a massive list of posts, where it takes an age to scroll to the end of them.</p>
+<p>Pagination allows you to break up those posts into multiple, smaller pages.</p>
+<p>This tutorial was inspired by the post by Nicky Meuleman, I, however, had issues with it and couldn't get it to work. So this is my version of that tutorial.</p>
+<p>But first, why did I choose pagination over Infinite Scroll? I ended up picking pagination solely for the challenge of creating it. After reading the article <a href="https://uxplanet.org/ux-infinite-scrolling-vs-pagination-1030d29376f1">UX: Infinite Scrolling vs. Pagination</a> I decided I made the right choice. Infinite scroll IMO is better suited to apps like Instagram.</p>
+<h3>Create a page for your posts.</h3>
+<p>Create a new file in <code>src/templates/</code> this will serve as a blueprint for every page that lists the posts. Make sure to import GraphQL and Link from Gatsby, and I have also imported my Layout and Head components too.</p>
+<pre><code class="language-javascript">// src/templates/post-list.js
+import React, { Component } from 'react'
+import { Link, graphql } from 'gatsby'
+
+import Layout from '../components/layout'
+import Head from '../components/head'
+
+const PostList = () =&gt; {
+    return (
+        &lt;Layout&gt;
+            &lt;Head title=&quot;Posts&quot;&gt;
+            // - Posts Here
+        &lt;/Layout&gt;
+    )
+}
+
+export default PostList
+</code></pre>
+<p>Then you will need to get the post data inside the template using GraphQL below is the query I used. To learn more about GraphQL, you can watch the following videos.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=8t0vNu2fCCM&amp;t=5303s"> Gatsby Data with GraphQL - Andrew Mead</a></li>
+<li><a href="https://youtu.be/lAJWHHUz8_8">GraphQL Basics - Fun Fun Function</a></li>
+</ul>
+<pre><code class="language-javascript">// src/templates/post-list.js
+export const query = graphql`
+    query($skip: Int!, $limit: Int!) {
+        allMarkdownRemark(
+            sort: { fields: [frontmatter___date], order: DESC }
+            limit: $limit
+            skip: $skip
+        ) {
+            edges {
+                node {
+                    fields {
+                        slug
+                    }
+                    frontmatter {
+                        title
+                        date(formatString: &quot;MMM DD, YYYY&quot;)
+                    }
+                    excerpt(pruneLength: 280)
+                }
+            }
+        }
+    }
+`
+</code></pre>
+<p>It's time to populate the data into the template for this I am just going to copy my code. If you want to learn more about how it's filled using GraphQL, carry on watching the video by Andrew Mead.</p>
+<p>I also added <code>props</code> as a parameter to <code>PostList,</code> enabling me to get that data into my component.</p>
+<pre><code class="language-javascript">// src/templates/post-list.js
+const PostList = props =&gt; {
+    const posts = props.data.allMarkdownRemark.edges
+
+    return (...
+</code></pre>
+<p>Read more about React components and props <a href="https://reactjs.org/docs/components-and-props.html">here</a></p>
+<pre><code class="language-javascript">// src/templates/post-list.js
+const PostList = props =&gt; {
+    const posts = props.data.allMarkdownRemark.edges
+
+    return (
+        &lt;Layout&gt;
+            &lt;Head title=&quot;Posts&quot; /&gt;
+            &lt;div className={layoutStyles.pageHeader}&gt;
+                &lt;h2&gt;Posts&lt;/h2&gt;
+                &lt;span&gt;Just my ramberlings&lt;/span&gt;
+            &lt;/div&gt;
+            {posts.map(({ node }) =&gt; {
+                const title = node.frontmatter.title || node.fields.slug
+                return (
+                    &lt;div className={postPageStyles.postItem}&gt;
+                        &lt;div className={postPageStyles.postItemTitle}&gt;
+                            &lt;h2&gt;{title}&lt;/h2&gt;
+                            &lt;span&gt;Posted on {node.frontmatter.date}&lt;/span&gt;
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                            &lt;p&gt;{node.excerpt}&lt;/p&gt;
+                            &lt;Link to={`${node.fields.slug}`}&gt;
+                                &lt;span&gt;Continue Reading&lt;/span&gt;
+                                &lt;span role=&quot;img&quot;&gt; 👉🏼&lt;/span&gt;
+                            &lt;/Link&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                )
+            })}
+        &lt;/Layout&gt;
+    )
+}
+
+export default PostList
+</code></pre>
+<h3>Get data to those listing pages</h3>
+<p>At this point, I am guessing you already have a collection of posts, and they're displayed as a giant list. I won't go over creating a slug for your <code>.md</code> files, if you don't, however, head over <a href="https://www.youtube.com/watch?v=8t0vNu2fCCM&amp;t=8340s">here</a> to learn more.</p>
+<p>The code below will create an amount of pages that is based on the total number of posts. . Each page will list <code>postsPerPage</code> (3) posts, until there are less than <code>postsPerPage</code> (3) posts left. The path for the first page is <code>/posts</code>, the following pages will have a path of the form: <code>/posts/2</code>, <code>/posts/3</code>, etc.</p>
+<p>This will also create a page for each post, each post will use the <code>post.js</code> template which you can find on my <a href="https://github.com/mrpbennett/gatsby-me/blob/master/src/templates/post.js">repo</a>.</p>
+<pre><code class="language-javascript">// gatsby-node.js
+module.exports.createPages = async ({ graphql, actions, reporter }) =&gt; {
+    const { createPage } = actions
+    const result = await graphql(`
+        query {
+            allMarkdownRemark {
+                edges {
+                    node {
+                        fields {
+                            slug
+                        }
+                    }
+                }
+            }
+        }
+    `)
+
+    // Handle errors
+    if (result.errors) {
+        reporter.panicOnBuild('Error while running GraphQL query.')
+        return
+    }
+
+    // Create the pages for each markdown file
+    const postTemplate = path.resolve('src/templates/post.js')
+    result.data.allMarkdownRemark.edges.forEach(({ node }) =&gt; {
+        createPage({
+            component: postTemplate,
+            path: `${node.fields.slug}`,
+            context: {
+                slug: node.fields.slug,
+            },
+        })
+    })
+
+    // PAGINATION FOR BLOG POSTS
+    const postsResult = await graphql(
+        `
+            {
+                allMarkdownRemark(
+                    sort: { fields: [frontmatter___date], order: DESC }
+                    limit: 1000
+                ) {
+                    edges {
+                        node {
+                            fields {
+                                slug
+                            }
+                        }
+                    }
+                }
+            }
+        `
+    )
+
+    if (postsResult.errors) {
+        reporter.panicOnBuild('Error while running GraphQL query.')
+        return
+    }
+
+    // Create blog-list pages
+    const posts = postsResult.data.allMarkdownRemark.edges
+    const postsPerPage = 3
+    const numPages = Math.ceil(posts.length / postsPerPage)
+    Array.from({ length: numPages }).forEach((_, i) =&gt; {
+        createPage({
+            path: i === 0 ? '/posts' : `/posts/${i + 1}`,
+            component: path.resolve('./src/templates/post-list.js'),
+            context: {
+                limit: postsPerPage,
+                skip: i * postsPerPage,
+                numPages,
+                currentPage: i + 1,
+            },
+        })
+    })
+}
+</code></pre>
+<h3>Adding previous/next navigation</h3>
+<p>This is where I ran to a dead end when using Nicky's tutorial. I was stuck <a href="https://nickymeuleman.netlify.com/blog/gatsby-pagination/#navigate-to-previousnext-page">here</a>.</p>
+<p>As this was my first React project, I was unaware you were unable to use <a href="https://stackoverflow.com/questions/58318868/unable-to-use-const-within-a-class-in-react/58319086?noredirect=1#comment103005995_58319086">const within a class in React</a></p>
+<p>I kept on getting an undefined error on <code>this.props.pageContext</code> after much headache, lots of dog walks, and two days later. I found the solution!! 🎉</p>
+<p>I found it watching <a href="https://youtu.be/qcS1VCGWukU?t=238">this video</a>. It was a simple case of using <code>const { currentPage, numPages } = props.pageContext</code>.</p>
+<p>Now my component looked like the below. With everything working now, you can use <code>currentPage</code> and <code>numPages</code> to determine the routes to the previous/next page. They also make it possible to only show those links if they exist.</p>
+<pre><code class="language-javascript">// src/templates/post-list.js
+const PostList = props =&gt; {
+    const { currentPage, numPages } = props.pageContext
+    const isFirst = currentPage === 1
+    const isLast = currentPage === numPages
+    const prevPage =
+        currentPage - 1 === 1
+            ? 'posts/'
+            : 'posts/' + (currentPage - 1).toString()
+    const nextPage = 'posts/' + (currentPage + 1).toString()
+
+    const posts = props.data.allMarkdownRemark.edges
+
+    return (
+        &lt;Layout&gt;
+            {!isFirst &amp;&amp; (
+                &lt;Link to={prevPage} rel=&quot;prev&quot;&gt;
+                    ← Previous Page
+                &lt;/Link&gt;
+            )}
+            {!isLast &amp;&amp; (
+                &lt;Link to={nextPage} rel=&quot;next&quot;&gt;
+                    Next Page →
+                &lt;/Link&gt;
+            )}
+        &lt;/Layout&gt;
+    )
+}
+</code></pre>
+<h3>Adding numbering</h3>
+<p>Iterate over <code>numPages</code> and output a number with the relevant link.</p>
+<pre><code class="language-javascript">{
+    Array.from({ length: numPages }, (_, i) =&gt; (
+        &lt;Link key={`pagination-number${i + 1}`} to={`/${i === 0 ? '' : i + 1}`}&gt;
+            {i + 1}
+        &lt;/Link&gt;
+    ))
+}
+</code></pre>
+<p>I ended up placing all the pagination into it's own div enabling me to style it. This ended up looking like the below:</p>
+<pre><code class="language-html">&lt;div className={paginationStyles.paginationBlock}&gt;
+    &lt;div className={paginationStyles.previous}&gt;
+        {!isFirst &amp;&amp; (
+            &lt;Link to={prevPage} rel=&quot;prev&quot;&gt;
+                &lt;span role=&quot;img&quot; className={paginationStyles.emojis}&gt;
+                    👈🏼
+                &lt;/span&gt;
+            &lt;/Link&gt;
+        )}
+    &lt;/div&gt;
+
+    &lt;div className={paginationStyles.numbers}&gt;
+        {Array.from({ length: numPages }, (_, i) =&gt; (
+            &lt;Link
+                key={`pagination-number${i + 1}`}
+                to={`posts/${i === 0 ? '' : i + 1}`}
+            &gt;
+                {i + 1}
+            &lt;/Link&gt;
+        ))}
+    &lt;/div&gt;
+
+    &lt;div className={paginationStyles.next}&gt;
+        {!isLast &amp;&amp; (
+            &lt;Link to={nextPage} rel=&quot;next&quot;&gt;
+                &lt;span role=&quot;img&quot; className={paginationStyles.emojis}&gt;
+                    👉🏼
+                &lt;/span&gt;
+            &lt;/Link&gt;
+        )}
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>If this doesnt make any sense, I mean I am also new to Gatsby and React you can check out the relevant files to get the pagination working below:</p>
+<ul>
+<li><a href="https://github.com/mrpbennett/gatsby-me/blob/master/src/templates/post-list.js">post-list.js</a></li>
+<li><a href="https://github.com/mrpbennett/gatsby-me/blob/master/gatsby-node.js">gatsby-node.js</a></li>
+</ul>
+<p>The whole repo is also <a href="https://github.com/mrpbennett/gatsby-me">here</a>.</p>
+<h4>Update:</h4>
+<p>I actually got in touch with Nicky over Twitter to advise him of the bug in his tutorial. This has now been resolved. However, i'll leave this blog post as it is, as a leaning curve. </p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>
