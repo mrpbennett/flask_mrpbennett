@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Converting dates from an API response in a Django Template</h2>
+    <p>As you might of read I struggled <a href="https://developer.mrpbennett.com/2019/09/02/getting-api-data-into-your-templates-with-django/">getting data from an API</a> into my Django templates. Once I did I came across another issue, dates...bloody full formatted dates. Dates formats such as this: <code>2019-08-30T08:22:32.245-0700</code> this data format was how the API presented one of the fields I needed.</p>
+<p>How the hell could I convert it? I couldn't just use <a href="https://docs.python.org/2/library/datetime.html"><code>datetime</code></a> So off to <a href="https://stackoverflow.com/questions/57759653/how-to-convert-date-from-an-api-response-in-a-django-template">Stackoverflow</a> I went.</p>
+<p>As the brilliant @Ralf said if the data I retrieved from the API was a string and not a Python <code>datetime.datetime</code> object. I had 2 options:</p>
+<ul>
+<li>Custom template filter that converts string to date and formats it into a string with the desired format</li>
+<li>In your view convert strings to dates and format them into strings with the desired format</li>
+</ul>
+<p>The idea was to start creating a <a href="https://docs.djangoproject.com/en/2.2/howto/custom-template-tags/#writing-custom-template-filters">custom template filter</a>. I copied the following from the source code from the <a href="https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#date">built-in date filter</a> so I was able to convert back to the date format I wanted, i ended up using <code>{{ custom_date:"d/b/y" }}</code></p>
+<p>I then went ahead and used the following to create a <a href="https://docs.djangoproject.com/en/2.2/howto/custom-template-tags/#code-layout">custom template tag</a></p>
+<h3>Step 1</h3>
+<p>First I had to create a <code>templatetags</code> directory inside my app, at the same level as models.py, views.py, etc. I then had to create a <code>__init__.py</code> file to ensure the directory is treated as a Python package.</p>
+<p>Within the <code>templatetags</code> dir I created my <code>custom_date.py</code> which would hold my custom filter. So the app layout would look something like this:</p>
+<pre><code class="language-bash">app/
+    __init__.py
+    models.py
+    templatetags/
+        __init__.py
+        custom_date.py
+    views.py
+</code></pre>
+<h3>Step 2</h3>
+<p>Now on to adding the filter into <code>custom_date.py</code> going back to my Stackoverflow question, I copied the example Ralf created. Which is the below</p>
+<pre><code class="language-python">from django import template
+from django.utils import formats
+import datetime
+register = template.Library()
+
+
+@register.filter(expects_localtime=True, is_safe=False)
+def custom_date(value, arg=None):
+    if value in (None, ''):
+        return ''
+
+    if isinstance(value, str):
+        api_date_format = '%Y-%m-%dT%H:%M:%S.%f%z'  # 2019-08-30T08:22:32.245-0700
+        value = datetime.datetime.strptime(value, api_date_format)
+
+    try:
+        return formats.date_format(value, arg)
+    except AttributeError:
+        try:
+            return format(value, arg)
+        except AttributeError:
+            return ''
+</code></pre>
+<p>I had some bugs with <code>api_date_format</code> because the API produced a whole load of extras I checked out the <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior">datetstrftime() and strptime() Behavior table</a> and made some edits. Once I got rid of the errors I moved on to the template.</p>
+<p>First I had to load the custom filter into my template, then I used the <code>custom_date</code> to change it to what I needed.</p>
+<pre><code class="language-html">{% raw %}
+&lt;td class=&quot;text-center&quot;&gt;{{ ticket.fields.updated|custom_date&quot;Y,D,M&quot; }}&lt;/td&gt;
+{% endraw %}
+</code></pre>
+<p>And there we have it...I successfully formatted the date, from an API response string.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

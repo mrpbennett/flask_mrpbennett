@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Making Git easier with aliases in the terminal</h2>
+    <p>Using aliases allow you as a terminal user to save time, It will end up saving a lot of time during the day. Instead of <code>git status</code> I type <code>gs</code> the rest are below and are self-explanatory.</p>
+<pre><code class="language-bash">alias gs=&quot;git status&quot;
+alias gp=&quot;git pull&quot;
+alias gb=&quot;git branch&quot;
+alias ga=&quot;git add .&quot;
+alias gc=&quot;git commit -m $1&quot;
+alias gca=&quot;git commit -a -m $1&quot;
+alias gpo=&quot;git push origin $1&quot;
+</code></pre>
+<p>You're able to also use arguments with $1, $2, etc. for more extendability, like in this example:</p>
+<p><code>alias gc="git commit -m $1"</code></p>
+<p>Now, all I have to type is gc “Commit message” and it’ll commit my changes with the provided message. </p>
+<p>All you have to do is find your most-used commands and try to make them shorter using an alias to make yourself more productive. For example below are some for Django and Gatsby workflows, you get the idea.</p>
+<pre><code class="language-bash">alias rs=&quot;python manage.py runserver&quot; # starts django server
+alias dmm=&quot;python manage.py makemigrations&quot; # makes db migrations in django
+alias dm=&quot;python manage.py migrate&quot; # migrates db in django
+</code></pre>
+<pre><code class="language-bash">alias gd=&quot;gatsby develop&quot;
+alias gb=&quot;gatsby build&quot;
+</code></pre>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

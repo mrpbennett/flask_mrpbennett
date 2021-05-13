@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Getting setup with Tailwind &amp; Gatsby</h2>
+    <p>I redesigned this site a while ago, moving from Jekyll over to Gatsby mainly because I wanted to learn some React. The learning curve was steep as I was coming from mainly an HTML, CSS and Python background. Never really spent too much time playing with JS, apart from JQuery the much more simplified JS Library.</p>
+<p>Playing around with Gatsby and React, I started building out separate <code>.scss</code> files for each component which got harder and harder to manage. I then found TailWindCSS a utility first CSS framework, the way I styled by components changed for the better.</p>
+<p>At first, I struggled to get to grips with setting it up within Gatsby, after a few links and youtube videos I got everything set up the way I wanted and below is how I did just that.</p>
+<h2>Create your Gatsby project</h2>
+<p>Install the Gatsby CLI globally if you don't have it already</p>
+<pre><code class="language-bash">npm install -g gatsby-cli
+</code></pre>
+<p>Create your new site and then <code>cd</code> into the directory</p>
+<pre><code class="language-bash">gatsby new &lt;project-name&gt; &amp;&amp; cd &lt;project-name&gt;
+</code></pre>
+<h2>Adding TailWindCSS</h2>
+<p>Once the project has finished building you're now able to add TailWind</p>
+<pre><code class="language-bash"># Using npm
+npm install tailwindcss
+
+# Using Yarn
+yarn add tailwindcss
+</code></pre>
+<p>Once that has completed then add a <code>.css</code> file to your <code>src/components</code> folder to inject Tailwind's <code>base</code>, <code>components</code>, and <code>utilitiesstyles</code> into your CSS:</p>
+<pre><code class="language-css">@tailwind base; 
+@tailwind components; 
+@tailwind utilities;
+</code></pre>
+<h3>Create a TailWind config file (optional)</h3>
+<p>You can skip this bit if you want too, but I would recommend creating one as you can change the behaviour of TailWind with it. I generally use it to center my containers as a default.</p>
+<pre><code class="language-bash">npx tailwindcss init
+</code></pre>
+<p>Which will create a file with the below structure. I have added my own file to help show how I use it.</p>
+<pre><code class="language-javascript">// tailwind.config.js
+module.exports = {
+  theme: {
+    container: {
+        center: true
+    },
+}
+</code></pre>
+<p>Learn more about configuring Tailwind in the <a href="https://tailwindcss.com/docs/configuration">configuration documentation</a>.</p>
+<h2>Using TailWind with PostCSS</h2>
+<p><a href="https://tailwindcss.com/docs/installation#4-process-your-css-with-tailwind">This</a> is where I got stuck when following the TailWind instructions on installing it. Gatsby being Gatsby there was a plugin for PostCSS, so we need to install that.</p>
+<pre><code class="language-bash">npm install --save gatsby-plugin-postcss
+</code></pre>
+<p>Once the plugin has finished installing, we need to add the config to our <code>gatsby-config.js</code> file by adding the following.</p>
+<pre><code class="language-javascript">// gatsby-config.js
+{
+ resolve: 'gatsby-plugin-postcss',
+    options: {
+        postCssPlugins: [require('tailwindcss')('./tailwind.config.js')],
+     },
+ },
+</code></pre>
+<p>This now includes the <code>tailwind.css</code> and <code>tailwind.config.js</code> file, so we're able to process the CSS.</p>
+<h2>Final step</h2>
+<p>Now all that is left is to import the tailwind.css file via our <code>gatsby-browser.js</code> file by simply adding the following line.</p>
+<pre><code class="language-javascript">// gatsby-browser.js
+import &quot;./src/components/tailwind.css&quot;
+</code></pre>
+<h2>Purging the CSS</h2>
+<p>Now everything is set up, it's time to set up purge css so we're able to remove any unused CSS.</p>
+<pre><code class="language-bash">npm i --save gatsby-plugin-purgecss
+</code></pre>
+<pre><code class="language-javascript">// gatsby-config.js
+{
+  resolve: `gatsby-plugin-purgecss`,
+  options: { tailwind: true }
+}
+</code></pre>
+<p>Now this should clean up your unused CSS making your site even faster! </p>
+<h2>Done</h2>
+<p>Now you're able to use TailWind within your Gatsby project with ease. Simply just add the class names to your JSX and then run <code>gatsby develop</code> to see the changes.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

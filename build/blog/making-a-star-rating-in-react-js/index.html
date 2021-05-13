@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Making a star rating in React.js</h2>
+    <p>When I was attempting to create a card, that allows for a star rating. It wasn't that easy for me...especially when watching a TailWind tutorial that was using Vue.js</p>
+<p>I did in the end manage to create my own star rating component.</p>
+<pre><code class="language-javascript">&lt;div&gt;
+{
+    [...Array(5)].map((star, i) =&gt; {
+        const ratingValue = i + 1;
+        return (
+            &lt;AiFillStar color={ratingValue &gt; card.rating ? 'grey' : 'teal'} /&gt;
+        );
+    });
+}
+&lt;/div&gt;
+</code></pre>
+<p>Using the above I was able to create these delightful looking cards.</p>
+<p><img alt="react card components" src="//images.ctfassets.net/53u3hzg2egeu/7hsvAcfwsHGglKWkL7xkGO/218ed1576fc1e2e676209d3f6f6d47df/Screenshot_2020-07-01_at_17.02.15.png"></p>
+<h3>Step 1.</h3>
+<p>First, we need to create an empty array of 5 items by adding the following: <code>[...Array(5)]</code> which will take <code>(star, i)</code> as it's arguments we will then map over it. Giving us 5 items these items will be the star icon <code>&lt;AiFillStar /&gt;</code> which we will return.</p>
+<h3>Step 2.</h3>
+<p>We then need to create an iterator so we can give our stars a value of 1 - 5. <code>const ratingValue = i + 1;</code> using 1 allows us to start our array at 1 instead of 0.</p>
+<h3>Step 3.</h3>
+<p>In our return statement, we have our icon which is imported from <a href="https://react-icons.github.io/react-icons/">react-icons</a> with a <code>color</code> prop. We need to conditionally check if our <code>ratingValue</code> is greater than our <code>card.rating</code> to be able to produce the number of coloured stars we need. We do this by using an inline if-else with an conditional operator <code>condition ? true : false.</code>.</p>
+<p>Here we are comparing if <code>ratingValue</code> is greater than <code>card.rating</code> if true then produce grey stars if false produce teal stars.</p>
+<pre><code class="language-javascript">&lt;AiFillStar color={ratingValue &gt; card.rating ? 'grey' : 'teal'} /&gt;
+</code></pre>
+<p>If you're wondering where my <code>card.</code> is coming from the star rating sits in another map method which is how we're using <code>card.rating</code> in our conditional:</p>
+<pre><code class="language-javascript">&lt;div className='cardContainer'&gt;
+    {cardData.map((card) =&gt; (
+        &lt;div className='card'&gt;
+            &lt;img src={card.imgUrl} /&gt;
+            ...
+
+</code></pre>
+<p>Below is the data set I used to get the card rating from.</p>
+<pre><code class="language-javascript">const cardData = [
+    {
+        imgUrl:
+            'https://images.unsplash.com/photo-1479502806991-251c94be6b15?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80',
+        beds: 3,
+        baths: 2,
+        title: 'Modern apartment in city center',
+        price: 390000,
+        formattedPrice: '£3,900.00',
+        reviewCount: 69,
+        rating: 4,
+    },
+    {
+        imgUrl:
+            'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1353&amp;q=80',
+        beds: 1,
+        baths: 2,
+        title: 'Desert get away in the sun',
+        price: 230000,
+        formattedPrice: '£2,300.00',
+        reviewCount: 108,
+        rating: 3,
+    },
+    {
+        imgUrl:
+            'https://images.unsplash.com/photo-1553653924-39b70295f8da?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80',
+        beds: 2,
+        baths: 1,
+        title: 'Coastal apartment with communal pool',
+        price: 900,
+        formattedPrice: '£900.00',
+        reviewCount: 2567,
+        rating: 5,
+    },
+];
+</code></pre>
+<p>That is it really...I got stuck with this a couple of time but now it's all working I am happy with the results. These star ratings are always the perfect edition to a card or anything that requires a rating.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

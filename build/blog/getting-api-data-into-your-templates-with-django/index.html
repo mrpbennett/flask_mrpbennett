@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">Getting API into your templates with Django</h2>
+    <p>It started by giving myself a project. Building a dashboard for our Customer Success team, bringing all our platforms into one UI. This, of course, meant I had to use APIs to populate the data. You can read about this more in depth <a href="https://developer.mrpbennett.com/projects/csm-portal">here</a></p>
+<p>I started to build the dashboard using <a href="https://www.youtube.com/playlist?list=PL-osiE80TeTtoQCKZ03TU5fNfx2UY6U4p">Corey Schafer Django Tutorials</a> on YouTube as I generally know more Python than anything else. Cory is the MAN!!! I have learnt so much from him, over anything else I have used included <a href="https://www.udemy.com">Udemy</a>. Although I am not knocking Udemy, Cory is just an excellent teacher.</p>
+<p>Ok, so how did I end up getting my API responses into my template.</p>
+<h3>PostMan</h3>
+<p>Postman has now for me, became an invaluable tool. It allows me to test all my APIs before putting them into code. I can dig down into the response so I know what to pull.</p>
+<h3>Code</h3>
+<p>I now know what I want to get from the API and what <code>keys</code> to use to get the relevant data. Making an API call in Python is pretty straight forward using <a href="https://2.python-requests.org/en/master/">Requests</a>. Something as simple as this will get you a response from an API.</p>
+<pre><code class="language-python">import requests
+
+def function():
+    url = 'https://swapi.co/api/starships/9/'
+    r = requests.get(url)
+    data = r.json()
+
+    return data
+</code></pre>
+<p>How did I get my API data into my templates? Well, this was where the headache came from, using Cory's tutorial I was coding blind more or less. As I was learning Django from those tutorials, so when it came to be doing my tweaks I struggled.</p>
+<p>In Cory's tutorial, we created a class called <code>PostDetailView</code> inherits from <code>DetailView</code>. This is where our client's data would live, the data was being populated from my model. I then had to create a separate file which would store my API calls, the calls would be as simple as the below: (<em>keys and domains removed for security</em>)</p>
+<pre><code class="language-python">import requests
+import json
+import os
+
+def jira_data():
+    url = 'https://domain.atlassian.net/rest/api/2/search?jql=project=CS'
+    r = requests.get(url, auth=(
+        'paulb@domain.com', 'JIRA_API_KEY'))
+    data = r.json()
+    return data
+
+
+def pendo_data():
+    url = 'https://app.pendo.io/api/v1/aggregation'
+    headers = {
+        'x-pendo-integration-key': &quot;PENDO_API_KEY&quot;,
+        'content-type': &quot;application/json&quot;
+    }
+
+    r = requests.get(url, headers=headers)
+    data = r.json()
+    first_visit = data['metadata']['auto']['firstvisit']
+    return first_visit
+</code></pre>
+<p>Nothing too complicated here...but how did I get the responses in my template? It was a major headache and a great learning curve for me, after being introduced to <code>render_to_response</code> function it was pretty easy to understand.</p>
+<h3>The class</h3>
+<p>I had the functions pulling the API data as I wanted in my separate file, now to get them to populate in my template. I had to use the <code>render_to_repsonse</code> function in my class to do this.</p>
+<pre><code class="language-python">class PostDetailView(DetailView):
+    model = Post
+    template_name = 'clients/post_detail.html'
+
+    def render_to_response(self, context, **response_kwargs):
+        # pendo api
+        pendo_result = api_calls.pendo_data()
+        context['pendo_data'] = pendo_result
+
+        # jira api
+        jira_result = api_calls.jira_data()
+        context['jira_data'] = jira_result['issues']
+
+        return super().render_to_response(context, **response_kwargs)
+</code></pre>
+<p>Using <a href="https://docs.djangoproject.com/en/2.2/ref/templates/api/#django.template.Context"><code>context</code></a> to fill the data into the template.</p>
+<blockquote>
+<p>Once you have a compiled Template object, you can render a context with it. You can reuse the same template to render it several times with different contexts.</p>
+</blockquote>
+<p>The above functions, called the functions which were calling the APIs and then putting the response data into <code>context</code> so I was able to use a template expression to populate the data.</p>
+<h3>The template</h3>
+<p>Once I was able to get the data out from the APIs and into my views, the rest was pretty simple. YAY! I just had to use Jinga and some template expressions. I won't go into much detail about this step but to populate the data within my template and into my HTML I used the following expression <code>{{ pendo_data }}</code> or <code>{{ jira_data }}</code> this will then render what was returned by the functions.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>

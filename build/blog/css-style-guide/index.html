@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+        <title>Paul Bennett &#183; Pythonista 🐍</title>
+    
+
+    <!-- TAILWIND CSS  + TYPOGRAPHY -->
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/components.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.5/dist/utilities.min.css" />
+
+    <!-- CUSTOM CSS -->
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+<body class="container mx-auto flex flex-col min-h-screen prose prose pt-10 dark:bg-gray-800">
+
+    <header class="">
+        <h1 class="capitalize">paul bennett</h1>
+
+        <nav class="flex">
+            <a href="/home/" class="mr-8">Home</a>
+            <a href="/about/" class="mr-8">About</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <div>
+            
+
+<!-- CONTENT HERE -->
+<section>
+    <h2 class="capitalize">My CSS style guide for easy readable CSS</h2>
+    <p>After reading many articles on writing the perfect CSS, I found that there is no perfect way to write CSS. I mean CSS isn’t the prettiest ‘language,’ but it has successfully powered the styling of the web for over 20 years now. Not doing too bad, huh? As I have written more and more CSS I found it darn difficult to maintain my own CSS, poorly written CSS will quickly turn into a nightmare.</p>
+<p>Therefore to make my life easier, I wrote my own CSS style guide, let me run you through it below.</p>
+<pre><code class="language-css">/*
+  Filename
+  Description of the file and it's contents (sometimes followed by a table of contents)
+*/
+
+/* Section heading
+-------------------------------------------------- */
+
+/* Sub heading
+------------------------- */
+
+/* Short &quot;why&quot; messages */
+.wrapper {
+  width: 800px;
+  margin: 0 auto; /* inline note */
+}
+</code></pre>
+<p>To start, each file should include a repeated name and short description. While the name here can be the same as the filename (as I’ve indicated), combined with the description, it can help you add clarity for other designers.</p>
+<p>Moving along, every major component is broken down into its own section. Not shown above is that each section has two to three lines after it to space things out. Subsections of that component have their own sub headings as well to further break things apart for readability and documentation.</p>
+<p>Really though, the last two types of comments are the most important to me. The others are honestly more of a formality and sanity check as searching is just as fast in most cases.</p>
+<pre><code class="language-css">/* Topbar inner */
+.topbar-inner {
+  ...
+}
+</code></pre>
+<p>The comment adds no value to anyone because it doesn’t tell you why this code is there in the first place. Here’s what might work a bit better:</p>
+<pre><code class="language-css">/* Required inner div to stack background effects */
+.topbar-inner {
+  ...
+}
+</code></pre>
+<p>While not the greatest example in the world, it illustrates the point.</p>
+<h4>Property order</h4>
+<p>A consistent CSS property order makes debugging faster, allows other developers to easily read your code and expectations of what exactly a block of CSS does that much clearer.</p>
+<h5>High level overview</h5>
+<p>At a high level, here’s our breakdown:</p>
+<ul>
+<li><code>position</code></li>
+<li><code>display</code> and box model</li>
+<li><code>font</code>, leading, <code>color</code>, text</li>
+<li><code>background</code> and <code>border</code></li>
+<li>CSS3 properties like <code>border-radius</code> and <code>box-shadow</code></li>
+<li>and a handful of other purely visual properties</li>
+</ul>
+<p>It mixes the common structural and alphabetical approaches into one in an effort to ensure our property order is logical, scannable, and all-encompassing.</p>
+<h4>Show me!</h4>
+<p>Getting more specific, here are some blocks of CSS might look with this property order in mind.</p>
+<pre><code class="language-css">.topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 40px;
+  padding: 0 20px;
+  background-color: #333;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 2px 3px rgba(0,0,0,.5);
+}
+</code></pre>
+<p>Here you can see positioning, box model (<code>height</code> and <code>padding</code>), and visual (<code>background-color</code>, <code>border-bottom</code> and <code>box-shadow</code>) in their proper order. This flows in such a way that you can discern that this is a fixed dark gray bar with a drop shadow–you know exactly what it is you’re dealing with as you read line-by-line.</p>
+<h4>Naming Convention</h4>
+<p>We now have the comment structur, the property order now lets dig into the naming convention is use. This is called BEM. Generally, there are 3 problems that CSS naming conventions try to solve:</p>
+<ol>
+<li>To know what a selector does, just by looking at its name</li>
+<li>To have an idea of where a selector can be used, just by looking at it</li>
+<li>To know the relationships between class names, just by looking at them</li>
+</ol>
+<p>You may have already guessed that the B in BEM stands for ‘Block’ in the real world, this ‘block’ could represent a site navigation, header, footer, or any other block of design. Lets use one of the sections on my site to explain this, lets use one of the recommendation blocks. We’re going to look at the text underneath the image…</p>
+<p>The block that holds the type, name and location has a class of .card-text which would look like this:</p>
+<h4>E for Elements</h4>
+<p>The E in ‘BEM’ stands for Elements. Overall blocks of design rarely live in isolation. For instance, the card-text block has a type, name, location. The type, name and location are all elements of the card-text block. They may be seen as child components, i.e. children of the overall parent component.</p>
+<p>Using the BEM naming convention, element class names are derived by adding two underscores, followed by the element name. For example:</p>
+<pre><code class="language-css">.card-text {
+}
+</code></pre>
+<h4>M for Modifiers</h4>
+<p>The M in ‘BEM’ stands for Modifiers. What if the card-text was modified and we could have a uppercase or a italic card-text block? Using BEM, modifier class names are derived by adding two hyphens followed by the element name.</p>
+<p>For example:</p>
+<pre><code class="language-css">.card-text__type {
+
+}
+.card-text__name {
+
+}
+.card-text__location {
+
+}
+</code></pre>
+<h4>Full example</h4>
+<p>Below is an example of the BEM naming convention, it’s super easy to implement and makes debugging and modifying your code a dream. Try refactoring your CSS file with the above methods and see how clean and easy your code is to read.</p>
+<pre><code class="language-html">&lt;p class=&quot;card-text&quot;&gt;
+  &lt;h4 class=&quot;card-text__type&quot;&gt;hotel&lt;/h4&gt;
+  &lt;h4 class=&quot;card-text__name&quot;&gt;the ludlow&lt;/h4&gt;
+  &lt;h4 class=&quot;card-text__location&quot;&gt;Lower East Side, New York&lt;/h4&gt;
+&lt;/p&gt;
+&lt;!-- CSS --&gt;
+.card-text {
+
+}
+.card-text__type {
+
+}
+.card-text__name {
+
+}
+.card-text__location {
+
+}
+</code></pre>
+<h4>Why Use Naming Conventions?</h4>
+<p>Naming things is hard. We’re trying to make things easier, and save ourselves time in the future with more maintainable code.</p>
+<p>Naming things correctly in CSS will make your code easier to read and maintain.</p>
+<p>If you choose to use the BEM naming convention, it will become easier to see the relationship between your design components/blocks just by looking at the markup.</p>
+</section>
+
+
+        </div>
+    </main>
+
+    <!-- FOOTER CONTENT -->
+    <footer class="">
+        <div class="container mx-auto py-3">
+            <p class="font-mono text-sm text-center">made with 🐍 in london 
+            </p>
+        </div>
+    </footer>
+    
+</body>
+</html>
