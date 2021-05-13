@@ -21,7 +21,7 @@ class ProdConfig(Config):
     DEBUG = False
     TESTING = False
     DATABASE_URI = environ.get("PROD_DATABASE_URI")
-    FREEZER_BASE_URL = "https://mrpbennett.com"
+    FREEZER_BASE_URL = "https://elated-joliot-819275.netlify.app"
 
 
 class DevConfig(Config):

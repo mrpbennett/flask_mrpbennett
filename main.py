@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 Markdown(app, extensions=["fenced_code"], output_format="html5")
 
-app.config.from_object("config.DevConfig")
+app.config.from_object("config.ProdConfig")
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, ".env"))
